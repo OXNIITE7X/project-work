@@ -1,6 +1,9 @@
+from models.sale import Sale
+
 class Inventory:
     def __init__(self):
         self.products = []
+        self.sales = []
 
     def add_product(self, product):
         self.products.append(product)
@@ -26,12 +29,19 @@ class Inventory:
 
         return low_products
 
-# rice = -Poduct("Rice", 4000, 4, "Food")
+    def record_sale(self, name, quantity):
+        product = self.find_product(name)
 
+        if product.quantity < quantity:
+            return "Insufficient stock"
+        else:
+            product.quantity -= quantity
 
-# inventory = Inventory()
-# Inventory.add_product(Rice)
-# print(Inventory())
-# print(Inventory.add_product(beans))
-# print(Inventory.add_product(bread))
-# print(Inventory.add_product(milk))
+            sale = Sale(
+                product.name,
+                quantity,
+                product.price,
+                quantity * product.price
+            )
+
+            self.sales.append(sale)
