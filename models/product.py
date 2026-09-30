@@ -6,9 +6,16 @@ class Product:
         self.quantity = quantity
         self.category = category
 
-    
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "price": self.price,
+            "quantity": self.quantity,
+            "category": self.category
+        }
+
     def total_value(self):
-        """Return the total ptice of all the products"""
+        """Return what the product is worth."""
         return self.price * self.quantity
     
     def is_low(self):

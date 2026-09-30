@@ -1,21 +1,14 @@
 import json
+import os
 
-def save_products(products, filename):
+def _write_json(path, rows):
+    os.makedirs("data", exist_ok=True)
+    with open(path, "w") as file:
+        json.dump(rows, file, indent=2)
+
+def save_products(products):
     """Save the products to a file"""
-    data = []
-
-
-    for product in products:
-        data.append({
-            "name": product.name,
-            "price": product.price,
-            "quantity": product.quantity,
-            "category": product.category
-        })
-
-    with open(filename, "w") as file:
-        json.dump(data, file, indent=4)
-
+    _write_json("data/products.json", [product.to_dict() for product in products])
 
 def load_products(filename):
     """Load the product data from file"""
@@ -29,20 +22,9 @@ def load_products(filename):
     except FileNotFoundError:
         return[]
 
-def save_sales(sales, filename):
+def save_sales(sales):
     """Return the saved file"""
-    data = []
-
-    for sale in sales:
-        data.append({
-            "product_name": sale.product_name,
-            "quantity_sold": sale.quantity_sold,
-            "unit_price": sale.unit_price,
-            "total": sale.total
-        })
-
-    with open(filename, "w") as file:
-        json.dump(data, file, indent=4)
+    _write_json("data/sales.json", [sale.to_dict() for sale in sales])
 
 
 def load_sales(filename):
