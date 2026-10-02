@@ -23,7 +23,7 @@ class Inventory:
     def update_quantity(self, name, quantity):
         """Return the updated quantity of product"""
         product = self.find_product(name)
-        product.quantity = quantity
+        product.quantity += quantity
 
     def low_stock(self):
         """Return products that are low on stock"""
