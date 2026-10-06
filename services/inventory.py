@@ -1,10 +1,7 @@
-from models.sale import Sale
-
 class Inventory:
     """Products in the shop"""
     def __init__(self, products=None, sales=None):
         self.products = products or []
-        self.sales = sales or []
 
     def add_product(self, product):
         """Return the products added"""
@@ -34,21 +31,3 @@ class Inventory:
                 low_products.append(product)
 
         return low_products
-
-    def record_sale(self, name, quantity):
-        product = self.find_product(name)
-
-        product.quantity -= quantity
-
-        total = product.price * quantity
-
-        sale = Sale(
-            product.name,
-            quantity,
-            product.price,
-            total
-        )
-
-        self.sales.append(sale)
-
-        return True

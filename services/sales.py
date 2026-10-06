@@ -1,8 +1,33 @@
+from models.sale import Sale
+
 class Sales:
     """Calculates the sum total of all sales made"""
     def __init__(self, sales):
-        self.sales = sales
+        self.sales = sales or []
 
+    def record_sale(self, name, quantity):
+        product = self.find_product(name)
+
+        if product is None:
+            return False
+        if quantity > product.quantity:
+            return False
+        
+        product.quantity -= quantity
+
+        total = product.price * quantity
+
+        sale = Sale(
+            product.name,
+            quantity,
+            product.price,
+            total
+        )
+
+        self.sales.append(sale)
+
+        return True
+    
     def total_value(self):
         total = 0
 
