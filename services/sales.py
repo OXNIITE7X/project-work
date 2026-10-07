@@ -2,11 +2,11 @@ from models.sale import Sale
 
 class Sales:
     """Calculates the sum total of all sales made"""
-    def __init__(self, sales):
+    def __init__(self, sales=None):
         self.sales = sales or []
 
-    def record_sale(self, name, quantity):
-        product = self.find_product(name)
+    def record_sale(self, inventory, name, quantity):
+        product = inventory.find_product(name)
 
         if product is None:
             return False

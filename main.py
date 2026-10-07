@@ -6,6 +6,7 @@ from storage.file_store import save_products, save_sales, load_products, load_sa
 
 
 inventory = Inventory()
+sales = Sales()
 
 product_data = load_products("data/products.json")
 for data in product_data:
@@ -25,7 +26,7 @@ for data in sales_data:
         data["unit_price"],
         data["total"]
     )
-    inventory.sales.append(sale)
+    sales.sales.append(sale)
 
 def ask_price():
     while True:
@@ -124,7 +125,7 @@ def update_stock(inventory):
     print("Stock quantity updated successfully")
 
 
-def record_sale(inventory):
+def record_sale(inventory, sales):
     name = input("Enter product name: ")
     
     product = inventory.find_product(name)
@@ -148,7 +149,7 @@ def record_sale(inventory):
         print("Insufficient stock")
         return
     
-    inventory.record_sale(name, quantity)
+    sales.record_sale(inventory, name, quantity)
     print("Sale recorded successfully")
 
 
@@ -164,12 +165,9 @@ def low_stock_report(inventory):
         for product in low_products:
             print(product.show())
 
-def sales_report(inventory):
-    sales = Sales(inventory.sales)
-    
-    
+def sales_report(sales):
     print("\n ---- SALES REPORT ----")
-    print(f"Total number of sales: {len(inventory.sales)}")
+    print(f"Total number of sales: {len(sales.sales)}")
     print(f"Total money made: {sales.total_value()}")
     
     best_product = sales.best_selling_product()
@@ -198,9 +196,9 @@ actions = {
     "2": lambda: list_product(inventory),
     "3": lambda: find_product(inventory),
     "4": lambda: update_stock(inventory),
-    "5": lambda: record_sale(inventory),
+    "5": lambda: record_sale(inventory, sales),
     "6": lambda: low_stock_report(inventory),
-    "7": lambda: sales_report(inventory),
+    "7": lambda: sales_report(sales),
 }
 
 while True:
@@ -211,7 +209,7 @@ while True:
 
     if choice == "8":
         save_products(inventory.products)
-        save_sales(inventory.sales)
+        save_sales(sales.sales)
         print("Save to file")
         break
 
